@@ -12,17 +12,17 @@
 В php.ini указать правильный путь к ext директории. Пример: extension_dir = "C:\php\ext"
 
 ### Инструкция для запуска
-1. Скопируйте репозиторий
+1. Скопируйте репозиторий:
 ```bash
-git clone
+git clone https://github.com/AlexeyZykin/OnlyTestTask.git
 ```
 
-2. Перейдите в каталог проекта
+2. Перейдите в каталог проекта:
 ```bash
 cd OnlyTestTask
 ```
 
-3. Запустите php сервер
+3. Запустите php сервер:
 ```bash
 php -S localhost:8080 -c php.ini src/public/index.php
 ```
