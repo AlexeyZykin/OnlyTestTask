@@ -50,9 +50,9 @@ class UserService {
         );
         if (isset($existingUser)) {
             $existingField = match (true) {
-                $existingUser->getLogin() == $request->getLogin() => "Логин",
-                $existingUser->getEmail() == $request->getEmail() => "Email",
-                $existingUser->getPhone() == $request->getPhone() => "Телефон",
+                $existingUser->getLogin() === $request->getLogin() => "Логин",
+                $existingUser->getEmail() === $request->getEmail() => "Email",
+                $existingUser->getPhone() === $request->getPhone() => "Телефон",
                 default => "",
             };
             throw new AlreadyExistsException("Пользователь с такими данными уже существует: $existingField");

@@ -48,9 +48,9 @@ class AuthService {
 
         if (isset($existingUser)) {
             $existingField = match (true) {
-                $existingUser->getLogin() == $entity->getLogin() => "Логин",
-                $existingUser->getEmail() == $entity->getEmail() => "Email",
-                $existingUser->getPhone() == $entity->getPhone() => "Телефон",
+                $existingUser->getLogin() === $entity->getLogin() => "Логин",
+                $existingUser->getEmail() === $entity->getEmail() => "Email",
+                $existingUser->getPhone() === $entity->getPhone() => "Телефон",
                 default => "",
             };
 

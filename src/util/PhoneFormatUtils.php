@@ -23,7 +23,7 @@ class PhoneFormatUtils {
 
         $digits = preg_replace('/\D/', '', $phone);
 
-        if ($digits[0] == '8') {
+        if ($digits[0] === '8') {
             return '+7' . substr($digits, 1);
         }
 
