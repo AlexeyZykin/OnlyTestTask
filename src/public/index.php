@@ -72,19 +72,19 @@ $router->register(
     httpMethod: HttpMethod::POST,
     path: Route::REGISTER,
     callback: [$registerController, 'register'],
-    request: $requestFactory->create(RegisterRequest::class)
+    requestClass: RegisterRequest::class
 );
 $router->register(
     httpMethod: HttpMethod::POST,
     path: Route::LOGIN,
     callback: [$loginController, 'login'],
-    request: $requestFactory->create(LoginRequest::class)
+    requestClass: LoginRequest::class
 );
 $router->register(
     httpMethod: HttpMethod::POST,
     path: Route::PROFILE,
     callback: [$profileController, 'updateUser'],
-    request: $requestFactory->create(UpdateUserRequest::class)
+    requestClass: UpdateUserRequest::class
 );
 
 $router->handleRequest(reqMethod: $_SERVER["REQUEST_METHOD"], uri: $_SERVER["REQUEST_URI"]);

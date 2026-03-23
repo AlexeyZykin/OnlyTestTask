@@ -11,12 +11,12 @@ class Router {
 
     private array $routes;
 
-    public function __construct() {}
+    public function __construct(private readonly RequestFactory $requestFactory) {}
 
-    public function register(HttpMethod $httpMethod, Route $path, $callback, $request = null): void {
+    public function register(HttpMethod $httpMethod, Route $path, $callback, $requestClass = ""): void {
         $this->routes[$httpMethod->value][$path->value] = [
             "callback" => $callback,
-            "request" => $request
+            "requestClass" => $requestClass
         ];
     }
 
@@ -33,15 +33,16 @@ class Router {
             throw new NotFoundException("Данный path не найден: $path");
         }
 
-        $requestDto = $this->routes[$reqMethod][$path]["request"];
+        $requestClass = $this->routes[$reqMethod][$path]["requestClass"];
         $callback = $this->routes[$reqMethod][$path]["callback"];
 
-        if (!isset($requestDto)) {
+        if (empty($requestClass)) {
             call_user_func($callback);
             return;
         }
 
-        call_user_func($callback, $requestDto);
+        $request = $this->requestFactory->create($requestClass);
+        call_user_func($callback, $request);
     }
 
 
