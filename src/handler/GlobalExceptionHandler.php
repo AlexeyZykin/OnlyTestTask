@@ -4,6 +4,7 @@ namespace handler;
 
 use exception\NotFoundException;
 use model\LogLevel;
+use PDOException;
 use Throwable;
 use function util\log;
 
@@ -22,6 +23,8 @@ class GlobalExceptionHandler {
     public function handleException(Throwable $e): void {
         if ($e instanceof NotFoundException) {
             $this->handleNotFoundException($e);
+        } elseif ($e instanceof PDOException) {
+            $this->handlePDOException($e);
         } else {
             $this->handleUnknownException($e);
         }
@@ -33,6 +36,16 @@ class GlobalExceptionHandler {
         http_response_code(404);
 
         echo "<h1>404 - Not Found</h1>";
+        exit;
+    }
+
+    private function handlePDOException (PDOException $e): void {
+        $msg = "Error with Database: {$e->getMessage()}";
+        log($msg, LogLevel::ERROR);
+
+        http_response_code(500);
+
+        echo "<h1>Ошибка на сервере</h1>";
         exit;
     }
 

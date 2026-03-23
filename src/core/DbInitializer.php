@@ -3,7 +3,10 @@
 namespace core;
 
 use config\Config;
+use model\LogLevel;
 use PDO;
+use PDOException;
+use function util\log;
 
 readonly class DbInitializer {
 
@@ -16,17 +19,23 @@ readonly class DbInitializer {
     }
 
     private static function createUserSchema(PDO $conn): void {
-        $schemaName = Config::SCHEMA_NAME;
+        try {
+            $schemaName = Config::SCHEMA_NAME;
 
-        $sql = "CREATE SCHEMA IF NOT EXISTS $schemaName";
+            $sql = "CREATE SCHEMA IF NOT EXISTS $schemaName";
 
-        $conn->exec($sql);
+            $conn->exec($sql);
+        } catch (PDOException $e) {
+            log($e->getMessage(), LogLevel::ERROR);
+            throw $e;
+        }
     }
 
     private static function createUserTable(PDO $conn): void {
-        $tableName = Config::getFullUserTableName();
+        try {
+            $tableName = Config::getFullUserTableName();
 
-        $sql = "
+            $sql = "
             CREATE TABLE IF NOT EXISTS $tableName (
                 id VARCHAR(255) PRIMARY KEY,
                 login VARCHAR(50) UNIQUE NOT NULL,
@@ -36,7 +45,11 @@ readonly class DbInitializer {
             )
         ";
 
-        $conn->exec($sql);
+            $conn->exec($sql);
+        } catch (PDOException $e) {
+            log($e->getMessage(), LogLevel::ERROR);
+            throw $e;
+        }
     }
 
 }

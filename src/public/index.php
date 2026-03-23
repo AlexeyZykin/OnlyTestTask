@@ -68,8 +68,23 @@ $router->register(HttpMethod::GET, Route::REGISTER, [$registerController, 'show'
 $router->register(HttpMethod::GET, Route::LOGIN, [$loginController, 'show']);
 $router->register(HttpMethod::GET, Route::PROFILE, [$profileController, 'show']);
 
-$router->register(HttpMethod::POST, Route::REGISTER, [$registerController, 'register'], RegisterRequest::class);
-$router->register(HttpMethod::POST, Route::LOGIN, [$loginController, 'login'], LoginRequest::class);
-$router->register(HttpMethod::POST, Route::PROFILE, [$profileController, 'updateUser'], UpdateUserRequest::class);
+$router->register(
+    httpMethod: HttpMethod::POST,
+    path: Route::REGISTER,
+    callback: [$registerController, 'register'],
+    request: $requestFactory->create(RegisterRequest::class)
+);
+$router->register(
+    httpMethod: HttpMethod::POST,
+    path: Route::LOGIN,
+    callback: [$loginController, 'login'],
+    request: $requestFactory->create(LoginRequest::class)
+);
+$router->register(
+    httpMethod: HttpMethod::POST,
+    path: Route::PROFILE,
+    callback: [$profileController, 'updateUser'],
+    request: $requestFactory->create(UpdateUserRequest::class)
+);
 
 $router->handleRequest(reqMethod: $_SERVER["REQUEST_METHOD"], uri: $_SERVER["REQUEST_URI"]);
